@@ -1,0 +1,724 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Intro to Probabilsitic Programming ( &#8212; Bayesian Reasoning in Data Science (DATA 644)</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="referencesmd.html" />
+    <link rel="prev" title="Bayes’ Rule Exercises and Monte Carlo Method" href="MontyHall_MC.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/wm_vertical_single_line_full_color.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Bayesian Reasoning in Data Science (DATA 644)</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Bayesian Reasoning in Data Science (PhD Course)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Lectures
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">
+   Bayes Theorem, priors, likelihood, posterior, distributions - Lec 1 (1/25/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1A46CUs7thqx5qPV91fdywdkl0nQx_PWhokTif0Rmf_8/edit?usp=sharing">
+   Bayes Theorem, subjective and objective interpretations of probability, Exercises - Lec 2 (1/30/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1r1Np-VjDTCLCmaynoOBaCel3W40bZvj9lQBlY6zfggc/edit?usp=sharing">
+   Thinking Probabilistically, Causes and Effects , True and Measured; Credible Intervals, ROPE, HDI - Lec 3 (2/1/2024)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="MontyHall_MC.html">
+   Thinking Probabilistically (2/1/2024)
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Intro to Probabilistic Programming (2/1/2024)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assignments
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/pyscr/">
+   Mini-project (pyscript + PyMC)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/brds/bayesian_A_B_testing_mini_project.html">
+   Bayesian A/B testing (pyscript) by R. Gupta, BRDS class 2022
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Additional resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="referencesmd.html">
+   References
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/cfteach/BRDS_DATA644/main?urlpath=tree/notebooks/Intro_PyMC.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="http://jupyterhub.wm.edu/hub/user-redirect/git-pull?repo=https://github.com/cfteach/BRDS_DATA644&urlpath=tree/BRDS_DATA644/notebooks/Intro_PyMC.ipynb&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/cfteach/BRDS_DATA644/blob/main/notebooks/Intro_PyMC.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/cfteach/BRDS_DATA644"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/cfteach/BRDS_DATA644/issues/new?title=Issue%20on%20page%20%2FIntro_PyMC.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Intro_PyMC.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Intro to Probabilsitic Programming (</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="intro-to-probabilsitic-programming">
+<h1>Intro to Probabilsitic Programming (<a class="headerlink" href="#intro-to-probabilsitic-programming" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install pytensor pymc
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting pytensor
+  Downloading pytensor-2.18.6-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.7 kB)
+Collecting pymc
+  Downloading pymc-5.10.3-py3-none-any.whl.metadata (10 kB)
+Requirement already satisfied: setuptools&gt;=48.0.0 in /opt/conda/lib/python3.11/site-packages (from pytensor) (68.2.2)
+Requirement already satisfied: scipy&gt;=0.14 in /opt/conda/lib/python3.11/site-packages (from pytensor) (1.12.0)
+Requirement already satisfied: numpy&gt;=1.17.0 in /opt/conda/lib/python3.11/site-packages (from pytensor) (1.26.3)
+Requirement already satisfied: filelock in /opt/conda/lib/python3.11/site-packages (from pytensor) (3.13.1)
+Collecting etuples (from pytensor)
+  Downloading etuples-0.3.9.tar.gz (30 kB)
+  Preparing metadata (setup.py) ... ?25ldone
+?25hCollecting logical-unification (from pytensor)
+  Downloading logical-unification-0.4.6.tar.gz (31 kB)
+  Preparing metadata (setup.py) ... ?25ldone
+?25hCollecting miniKanren (from pytensor)
+  Downloading miniKanren-1.0.3.tar.gz (41 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">41.3/41.3 kB</span> <span class=" -Color -Color-Red">4.2 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25h  Preparing metadata (setup.py) ... ?25ldone
+?25hCollecting cons (from pytensor)
+  Downloading cons-0.4.6.tar.gz (26 kB)
+  Preparing metadata (setup.py) ... ?25ldone
+?25hRequirement already satisfied: typing-extensions in /opt/conda/lib/python3.11/site-packages (from pytensor) (4.8.0)
+Collecting arviz&gt;=0.13.0 (from pymc)
+  Downloading arviz-0.17.0-py3-none-any.whl.metadata (8.6 kB)
+Requirement already satisfied: cachetools&gt;=4.2.1 in /opt/conda/lib/python3.11/site-packages (from pymc) (5.3.2)
+Requirement already satisfied: cloudpickle in /opt/conda/lib/python3.11/site-packages (from pymc) (3.0.0)
+Collecting fastprogress&gt;=0.2.0 (from pymc)
+  Downloading fastprogress-1.0.3-py3-none-any.whl (12 kB)
+Requirement already satisfied: pandas&gt;=0.24.0 in /opt/conda/lib/python3.11/site-packages (from pymc) (2.2.0)
+Requirement already satisfied: matplotlib&gt;=3.5 in /opt/conda/lib/python3.11/site-packages (from arviz&gt;=0.13.0-&gt;pymc) (3.8.2)
+Requirement already satisfied: packaging in /opt/conda/lib/python3.11/site-packages (from arviz&gt;=0.13.0-&gt;pymc) (23.2)
+Collecting xarray&gt;=0.21.0 (from arviz&gt;=0.13.0-&gt;pymc)
+  Downloading xarray-2024.1.1-py3-none-any.whl.metadata (11 kB)
+Collecting h5netcdf&gt;=1.0.2 (from arviz&gt;=0.13.0-&gt;pymc)
+  Downloading h5netcdf-1.3.0-py3-none-any.whl.metadata (13 kB)
+Collecting xarray-einstats&gt;=0.3 (from arviz&gt;=0.13.0-&gt;pymc)
+  Downloading xarray_einstats-0.7.0-py3-none-any.whl.metadata (5.8 kB)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /opt/conda/lib/python3.11/site-packages (from pandas&gt;=0.24.0-&gt;pymc) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /opt/conda/lib/python3.11/site-packages (from pandas&gt;=0.24.0-&gt;pymc) (2023.3.post1)
+Requirement already satisfied: tzdata&gt;=2022.7 in /opt/conda/lib/python3.11/site-packages (from pandas&gt;=0.24.0-&gt;pymc) (2023.4)
+Requirement already satisfied: toolz in /opt/conda/lib/python3.11/site-packages (from logical-unification-&gt;pytensor) (0.12.0)
+Collecting multipledispatch (from logical-unification-&gt;pytensor)
+  Downloading multipledispatch-1.0.0-py3-none-any.whl.metadata (3.8 kB)
+Requirement already satisfied: h5py in /opt/conda/lib/python3.11/site-packages (from h5netcdf&gt;=1.0.2-&gt;arviz&gt;=0.13.0-&gt;pymc) (3.10.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/conda/lib/python3.11/site-packages (from matplotlib&gt;=3.5-&gt;arviz&gt;=0.13.0-&gt;pymc) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /opt/conda/lib/python3.11/site-packages (from matplotlib&gt;=3.5-&gt;arviz&gt;=0.13.0-&gt;pymc) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/conda/lib/python3.11/site-packages (from matplotlib&gt;=3.5-&gt;arviz&gt;=0.13.0-&gt;pymc) (4.47.2)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in /opt/conda/lib/python3.11/site-packages (from matplotlib&gt;=3.5-&gt;arviz&gt;=0.13.0-&gt;pymc) (1.4.5)
+Requirement already satisfied: pillow&gt;=8 in /opt/conda/lib/python3.11/site-packages (from matplotlib&gt;=3.5-&gt;arviz&gt;=0.13.0-&gt;pymc) (10.2.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/conda/lib/python3.11/site-packages (from matplotlib&gt;=3.5-&gt;arviz&gt;=0.13.0-&gt;pymc) (3.1.1)
+Requirement already satisfied: six&gt;=1.5 in /opt/conda/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=0.24.0-&gt;pymc) (1.16.0)
+Downloading pytensor-2.18.6-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">2.0/2.0 MB</span> <span class=" -Color -Color-Red">52.3 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>:00:01
+?25hDownloading pymc-5.10.3-py3-none-any.whl (472 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">472.4/472.4 kB</span> <span class=" -Color -Color-Red">34.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading arviz-0.17.0-py3-none-any.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">1.7/1.7 MB</span> <span class=" -Color -Color-Red">60.9 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading h5netcdf-1.3.0-py3-none-any.whl (43 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">43.6/43.6 kB</span> <span class=" -Color -Color-Red">3.5 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading xarray-2024.1.1-py3-none-any.whl (1.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">1.1/1.1 MB</span> <span class=" -Color -Color-Red">53.2 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading xarray_einstats-0.7.0-py3-none-any.whl (31 kB)
+Downloading multipledispatch-1.0.0-py3-none-any.whl (12 kB)
+Building wheels for collected packages: cons, logical-unification, etuples, miniKanren
+  Building wheel for cons (setup.py) ... ?25ldone
+?25h  Created wheel for cons: filename=cons-0.4.6-py3-none-any.whl size=9098 sha256=9e05ad3bb0b7738f0f7e2c285974626f3a6bb4b2019f81ce79a62e21097974f0
+  Stored in directory: /home/jovyan/.cache/pip/wheels/95/8f/45/fe0a5b5e232401da571d514eb545833fbe220993ac8336c94e
+  Building wheel for logical-unification (setup.py) ... ?25ldone
+?25h  Created wheel for logical-unification: filename=logical_unification-0.4.6-py3-none-any.whl size=13910 sha256=6ca0e042ecd600251ccc87b3b1f99e0c1ace4812c0136c139bdd5848cea14aa4
+  Stored in directory: /home/jovyan/.cache/pip/wheels/b8/34/a9/c11a21ef1f1b6d2e5ae518dd5d28c0bd2b131c5d6e5d4417c3
+  Building wheel for etuples (setup.py) ... ?25ldone
+?25h  Created wheel for etuples: filename=etuples-0.3.9-py3-none-any.whl size=12617 sha256=50dc8c9252657ab063d0b33987c4157cafc2d6916fe3f719082ead32fd04cc6e
+  Stored in directory: /home/jovyan/.cache/pip/wheels/11/5a/ad/ebef6395e95b1dfd742afb44db6d92bd5e8921a572b9ff8618
+  Building wheel for miniKanren (setup.py) ... ?25ldone
+?25h  Created wheel for miniKanren: filename=miniKanren-1.0.3-py3-none-any.whl size=23908 sha256=a908dddafe32d3d12c9f48adba0fb547b7a0b1e6e5e1960fac5c06f889f1971f
+  Stored in directory: /home/jovyan/.cache/pip/wheels/8d/86/58/7da4a186a7bb721885e4fb811a54b5a0065b0c624a5deb1259
+Successfully built cons logical-unification etuples miniKanren
+Installing collected packages: multipledispatch, logical-unification, fastprogress, h5netcdf, cons, xarray, etuples, xarray-einstats, miniKanren, pytensor, arviz, pymc
+Successfully installed arviz-0.17.0 cons-0.4.6 etuples-0.3.9 fastprogress-1.0.3 h5netcdf-1.3.0 logical-unification-0.4.6 miniKanren-1.0.3 multipledispatch-1.0.0 pymc-5.10.3 pytensor-2.18.6 xarray-2024.1.1 xarray-einstats-0.7.0
+Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># Assume N trials and K successes out of those trials</span>
+<span class="c1"># Change these numbers to see how the posterior plot changes</span>
+<span class="c1">#trials = 500; successes = 250</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">()</span>
+
+<span class="n">p_true</span> <span class="o">=</span> <span class="mf">0.35</span>
+
+<span class="c1"># Number of tosses</span>
+<span class="n">trials</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Replace with your desired number of tosses</span>
+
+<span class="c1"># Simulating N coin tosses</span>
+<span class="n">successes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">p_true</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N tosses: </span><span class="si">{</span><span class="n">trials</span><span class="si">}</span><span class="s2">, heads: </span><span class="si">{</span><span class="n">successes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N tosses: 20, heads: 7
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+
+<span class="c1"># Set up model context</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">coin_flip_model</span><span class="p">:</span>
+    <span class="c1"># Probability p of success we want to estimate</span>
+    <span class="c1"># and assign Beta prior</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Define likelihood</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;obs&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">trials</span><span class="p">,</span>
+        <span class="n">observed</span><span class="o">=</span><span class="n">successes</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Hit Inference Button</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (2 chains in 2 jobs)
+NUTS: [p]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [4000/4000 00:03&lt;00:00 Sampling 2 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 2 chains for 1_000 tune and 1_000 draw iterations (2_000 + 2_000 draws total) took 4 seconds.
+We recommend running at least 4 chains for robust computation of convergence diagnostics
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Intro_PyMC_4_0.png" src="_images/Intro_PyMC_4_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;p&#39;}&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ROPE: Region Of Practical Equivalence </span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">rope</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">.6</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: title={&#39;center&#39;: &#39;p&#39;}&gt;
+</pre></div>
+</div>
+<img alt="_images/Intro_PyMC_5_1.png" src="_images/Intro_PyMC_5_1.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "cfteach/BRDS_DATA644",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="MontyHall_MC.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Bayes’ Rule Exercises and Monte Carlo Method</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="referencesmd.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Cristiano Fanelli<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
