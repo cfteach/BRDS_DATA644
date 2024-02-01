@@ -1,17 +1,17 @@
 <center>
 
-# Bayesian Reasoning in Data Science
+# Bayesian Reasoning in Data Science (PhD Course)
 
-<b>[Prof. C. Fanelli](https://www.cristianofanelli.com)</b> - <b>DATA 340 05</b>
+<b>[Prof. C. Fanelli](https://www.cristianofanelli.com)</b> - <b>DATA 644</b>
 
 
-(last update: Dec 9/2022)
+(last update: Feb 1/2024)
 
 </center>
 
 <!-- It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information. -->
 
-```{figure} ./images/Bayes_intro.jpeg
+```{figure} ./images/bayes_theorem.jpeg
 ---
 width: 600px
 name: fig-layout
