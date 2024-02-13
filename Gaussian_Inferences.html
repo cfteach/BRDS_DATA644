@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Predictive Checks &#8212; Bayesian Reasoning in Data Science (DATA 644)</title>
+    <title>Gaussian Inferences, t-Student, Update of Beliefs &#8212; Bayesian Reasoning in Data Science (DATA 644)</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -147,6 +147,11 @@ const thebe_selector_output = ".output, .cell_output"
    Inference and Intro to Probabilistic Programming, PyMC; Credible Intervals, ROPE, HDI - Lec 5 (2/8/2024)
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1J0j8Y3S0gcGLL-9JsUuQEpZ1J-YU6bZKM_GJ4M_7_jA/edit?usp=sharing">
+   Gaussian Inference; t-Student; Update of Beliefs - Lec 6 (2/13/2024)
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -176,7 +181,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Predictive Checks
+   Bayesian Inference with Gaussian and t-Student models, update of beliefs (2/13/2024)
   </a>
  </li>
 </ul>
@@ -475,17 +480,17 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predictive-checks">
    Predictive Checks
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#student-s-t-distribution">
    Student’s t Distribution
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#updating-beliefs">
    Updating beliefs
   </a>
@@ -499,7 +504,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Predictive Checks</h1>
+                <h1>Gaussian Inferences, t-Student, Update of Beliefs</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -509,17 +514,17 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predictive-checks">
    Predictive Checks
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#student-s-t-distribution">
    Student’s t Distribution
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#updating-beliefs">
    Updating beliefs
   </a>
@@ -534,7 +539,9 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="gaussian-inferences-t-student-update-of-beliefs">
+<h1>Gaussian Inferences, t-Student, Update of Beliefs<a class="headerlink" href="#gaussian-inferences-t-student-update-of-beliefs" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pymc</span> <span class="n">pytensor</span>
 </pre></div>
@@ -657,7 +664,7 @@ For this example, we have 48 chemical shifts values that we can load into a NumP
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.YTick at 0x7ff47cc83fa0&gt;], [Text(0, 0, &#39;0&#39;)])
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_6_1.png" src="_images/Gaussian_Inferences_6_1.png" />
+<img alt="_images/Gaussian_Inferences_7_1.png" src="_images/Gaussian_Inferences_7_1.png" />
 </div>
 </div>
 <p>Let’s forget about those two “outliers” for a moment, and assume that a Gaussian distribution is a proper description of the data.</p>
@@ -731,7 +738,7 @@ For this example, we have 48 chemical shifts values that we can load into a NumP
       dtype=object)
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_11_5.png" src="_images/Gaussian_Inferences_11_5.png" />
+<img alt="_images/Gaussian_Inferences_12_5.png" src="_images/Gaussian_Inferences_12_5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -745,7 +752,7 @@ For this example, we have 48 chemical shifts values that we can load into a NumP
        [&lt;Axes: xlabel=&#39;μ&#39;, ylabel=&#39;σ&#39;&gt;, &lt;Axes: &gt;]], dtype=object)
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_12_1.png" src="_images/Gaussian_Inferences_12_1.png" />
+<img alt="_images/Gaussian_Inferences_13_1.png" src="_images/Gaussian_Inferences_13_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1033,7 +1040,7 @@ For this example, we have 48 chemical shifts values that we can load into a NumP
 <li><p><em>r_hat</em>: diagnostic tests for lack of convergence by comparing the variance between multiple chains to the variance within each chain. converges to unity when each of the traces is a sample from the target posterior. <code class="docutils literal notranslate"><span class="pre">Values</span> <span class="pre">greater</span> <span class="pre">than</span> <span class="pre">one</span> <span class="pre">indicate</span> <span class="pre">that</span> <span class="pre">one</span> <span class="pre">or</span> <span class="pre">more</span> <span class="pre">chains</span> <span class="pre">have</span> <span class="pre">not</span> <span class="pre">yet</span> <span class="pre">converged</span></code>.</p></li>
 </ul>
 <section id="predictive-checks">
-<h1>Predictive Checks<a class="headerlink" href="#predictive-checks" title="Permalink to this headline">#</a></h1>
+<h2>Predictive Checks<a class="headerlink" href="#predictive-checks" title="Permalink to this headline">#</a></h2>
 <p>We can use the posterior to generate predictions — e.g, each of which of the same size of the data. We can check consistency with data. This is a self-consistency check that is allowed by Bayesian Reasoning: it is possible to generate predictions <span class="math notranslate nohighlight">\(\tilde{y}\)</span>, based on data <span class="math notranslate nohighlight">\(y\)</span>, and the estimated parameters <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
 <p><span class="math notranslate nohighlight">\(p(\tilde{y}|y)\)</span>=<span class="math notranslate nohighlight">\(\int{p(\tilde{y}|\theta)}p(\theta|y) d\theta\)</span></p>
 <p>We can use the predicted <span class="math notranslate nohighlight">\(\tilde{y}\)</span> and compare to our data <span class="math notranslate nohighlight">\(y\)</span> to criticize our model. Models should always be checked.</p>
@@ -2720,7 +2727,7 @@ We are basically creating multiple datasets “equivalent” to the original dat
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ff453c18910&gt;
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_23_1.png" src="_images/Gaussian_Inferences_23_1.png" />
+<img alt="_images/Gaussian_Inferences_24_1.png" src="_images/Gaussian_Inferences_24_1.png" />
 </div>
 </div>
 <div class="alert alert-block alert-info" style="background-color: white; border: 2px solid; padding: 10px">
@@ -2732,7 +2739,7 @@ We are basically creating multiple datasets “equivalent” to the original dat
 <p>One very useful option is replacing the Gaussian likelihood with a Student’s t-distribution</p>
 </section>
 <section id="student-s-t-distribution">
-<h1>Student’s t Distribution<a class="headerlink" href="#student-s-t-distribution" title="Permalink to this headline">#</a></h1>
+<h2>Student’s t Distribution<a class="headerlink" href="#student-s-t-distribution" title="Permalink to this headline">#</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Student%27s_t-distribution">https://en.wikipedia.org/wiki/Student’s_t-distribution</a></p>
 <ul class="simple">
 <li><p>Fun fact: origin of the name</p></li>
@@ -2760,7 +2767,7 @@ We are basically creating multiple datasets “equivalent” to the original dat
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-5.0, 5.0)
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_27_1.png" src="_images/Gaussian_Inferences_27_1.png" />
+<img alt="_images/Gaussian_Inferences_28_1.png" src="_images/Gaussian_Inferences_28_1.png" />
 </div>
 </div>
 <p>For the t-distribution, we now have three parameters to consider, <span class="math notranslate nohighlight">\(\mu\)</span>, <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span>. Please see notes in class.</p>
@@ -2855,7 +2862,7 @@ We are basically creating multiple datasets “equivalent” to the original dat
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Gaussian_Inferences_30_0.png" src="_images/Gaussian_Inferences_30_0.png" />
+<img alt="_images/Gaussian_Inferences_31_0.png" src="_images/Gaussian_Inferences_31_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -2871,7 +2878,7 @@ We are basically creating multiple datasets “equivalent” to the original dat
       dtype=object)
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_31_1.png" src="_images/Gaussian_Inferences_31_1.png" />
+<img alt="_images/Gaussian_Inferences_32_1.png" src="_images/Gaussian_Inferences_32_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3199,12 +3206,12 @@ We are basically creating multiple datasets “equivalent” to the original dat
 </div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;y&#39;)
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_33_3.png" src="_images/Gaussian_Inferences_33_3.png" />
+<img alt="_images/Gaussian_Inferences_34_3.png" src="_images/Gaussian_Inferences_34_3.png" />
 </div>
 </div>
 </section>
 <section id="updating-beliefs">
-<h1>Updating beliefs<a class="headerlink" href="#updating-beliefs" title="Permalink to this headline">#</a></h1>
+<h2>Updating beliefs<a class="headerlink" href="#updating-beliefs" title="Permalink to this headline">#</a></h2>
 <p>During the last lecture we discussed about how to update beliefs with new observations.</p>
 <p>The posterior calculated through our model from a previous set of observations becomes the new prior for our model, where this time in the likelihood we utilize the new observations…</p>
 <p>First, we need to capture the posterior. The following function will be very useful.</p>
@@ -3308,7 +3315,7 @@ We are basically creating multiple datasets “equivalent” to the original dat
       dtype=object)
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_41_1.png" src="_images/Gaussian_Inferences_41_1.png" />
+<img alt="_images/Gaussian_Inferences_42_1.png" src="_images/Gaussian_Inferences_42_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3322,9 +3329,10 @@ We are basically creating multiple datasets “equivalent” to the original dat
        &lt;Axes: title={&#39;center&#39;: &#39;ν&#39;}&gt;], dtype=object)
 </pre></div>
 </div>
-<img alt="_images/Gaussian_Inferences_42_1.png" src="_images/Gaussian_Inferences_42_1.png" />
+<img alt="_images/Gaussian_Inferences_43_1.png" src="_images/Gaussian_Inferences_43_1.png" />
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
