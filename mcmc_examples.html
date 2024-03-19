@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Bayesian Reasoning in Data Science (PhD Course) &#8212; Bayesian Reasoning in Data Science (DATA 644)</title>
+    <title>MCMC Examples &#8212; Bayesian Reasoning in Data Science (DATA 644)</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -53,7 +53,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Bayes’ Rule Exercises and Monte Carlo Method" href="MontyHall_MC.html" />
+    <link rel="next" title="References" href="referencesmd.html" />
+    <link rel="prev" title="Assignment 2" href="Sol_assignment2.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -107,8 +108,8 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Bayesian Reasoning in Data Science (PhD Course)
                 </a>
             </li>
@@ -293,9 +294,9 @@ const thebe_selector_output = ".output, .cell_output"
   Additional resources
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="mcmc_examples.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    MCMC examples
   </a>
  </li>
@@ -394,7 +395,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/cfteach/BRDS_DATA644/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/cfteach/BRDS_DATA644/issues/new?title=Issue%20on%20page%20%2Fmcmc_examples.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -422,7 +423,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/intro.md"
+        <a href="_sources/mcmc_examples.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -471,7 +472,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Bayesian Reasoning in Data Science (PhD Course)</h1>
+                <h1>MCMC Examples</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -484,79 +485,11 @@ title="Print to PDF"
               <div>
                 
   <center>
-<section class="tex2jax_ignore mathjax_ignore" id="bayesian-reasoning-in-data-science-phd-course">
-<h1>Bayesian Reasoning in Data Science (PhD Course)<a class="headerlink" href="#bayesian-reasoning-in-data-science-phd-course" title="Permalink to this headline">#</a></h1>
-<p><b><a class="reference external" href="https://www.cristianofanelli.com">Prof. C. Fanelli</a></b> - <b>DATA 644</b></p>
-<p>(last update: Mar 7/2024)</p>
+<section class="tex2jax_ignore mathjax_ignore" id="mcmc-examples">
+<h1>MCMC Examples<a class="headerlink" href="#mcmc-examples" title="Permalink to this headline">#</a></h1>
+<p>(last update: Mar 19/2024)</p>
 </center>
-<!-- It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information. -->
-<figure class="align-default" id="fig-layout">
-<a class="reference internal image-reference" href="_images/bayes_theorem.jpeg"><img alt="_images/bayes_theorem.jpeg" src="_images/bayes_theorem.jpeg" style="width: 600px;" /></a>
-</figure>
-<p><a class="reference external" href="https://cristianofanelli.com/wp-content/uploads/2024/02/Syllabus_BRDS_644_Graduates-3.pdf">Course Syllabus</a></p>
-<p><b>Synopsis: </b> No data scientist can work without a solid grasp of conditional probability and Bayesian reasoning. Bayes’ theorem allows to update our beliefs based on the occurrence of new events, steering the inference towards the truth and assessing uncertainty in predictions. This course provides an introduction to Bayesian Reasoning in Data Science (<b>BRDS</b>) and will let you appreciate the basic building blocks of this approach through real-world examples across different areas. During the course you will learn concrete computational implementations, that will help students connect what they have read and heard with what they can program, reinforcing the material.</p>
-<p>This course is based on the following references <span id="id1">[<a class="reference internal" href="referencesmd.html#id2" title="Giulio D'Agostini. Bayesian reasoning in data analysis: A critical introduction. World Scientific, 2003.">D'Agostini, 2003</a>, <a class="reference internal" href="referencesmd.html#id6" title="Cameron Davidson-Pilon. Bayesian methods for hackers: probabilistic programming and Bayesian inference. Addison-Wesley Professional, 2015. URL: https://camdavidsonpilon.github.io/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/.">Davidson-Pilon, 2015</a>, <a class="reference internal" href="referencesmd.html#id4" title="Allen B Downey. Think Bayes. &quot; O'Reilly Media, Inc.&quot;, 2021.">Downey, 2021</a>, <a class="reference internal" href="referencesmd.html#id5" title="David JC MacKay, David JC Mac Kay, and others. Information theory, inference and learning algorithms. Cambridge university press, 2003. URL: https://www.inference.org.uk/itprnn/book.pdf.">MacKay <em>et al.</em>, 2003</a>, <a class="reference internal" href="referencesmd.html#id3" title="Osvaldo Martin. Bayesian Analysis with Python: Introduction to statistical modeling and probabilistic programming using PyMC3 and ArviZ. Packt Publishing Ltd, 2018. URL: https://github.com/PacktPublishing/Bayesian-Analysis-with-Python-Second-Edition.">Martin, 2018</a>]</span></p>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures (integrate with notebooks below)</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">Bayes Theorem, priors, likelihood, posterior, distributions - Lec 1 (1/25/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1A46CUs7thqx5qPV91fdywdkl0nQx_PWhokTif0Rmf_8/edit?usp=sharing">Bayes Theorem, subjective and objective interpretations of probability, Exercises - Lec 2 (1/30/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1r1Np-VjDTCLCmaynoOBaCel3W40bZvj9lQBlY6zfggc/edit?usp=sharing">Thinking Probabilistically, Causes and Effects , True and Measured; Credible Intervals, ROPE, HDI - Lec 3 (2/1/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1_GlPlOWiB9HGNph6jKFfHdZjP7tm70WiqsmEZeUcC-E/edit?usp=sharing">Inference and Intro to Probabilistic Programming, PyMC; Credible Intervals, ROPE, HDI - Lec 4 (2/6/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1xwxp7steeZfhyNR1OAtRSWR1Qnx0OKVfA0WvpHNR-CM/edit?usp=sharing">Inference and Intro to Probabilistic Programming, PyMC; Credible Intervals, ROPE, HDI - Lec 5 (2/8/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1J0j8Y3S0gcGLL-9JsUuQEpZ1J-YU6bZKM_GJ4M_7_jA/edit?usp=sharing">Gaussian Inference; t-Student; Update of Beliefs - Lec 6 (2/13/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1nFAnk_s-SVPVRUs-r4MdxR-KTCknRhwJwHQpgoiqZHk/edit?usp=sharing">Bayesian Linear Regression; Robust Regression - Lec 7 (2/15/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1Na_htl6xFF9Td-giuBGRjnsdZUX8pVnq0wCS7qzk9WA/edit?usp=sharing">Bayesian Polynomial Regression, Posterior Predictive Checks - Lec 8 (2/20/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1JqfptaCn1qGk18gEGvfnk3GoO3U5Xtz1nNtJh1rBX5U/edit?usp=sharing">Bayesian Logistic Regression and Softmax - Lec 9 (2/22/2024), Lec 10 (2/27/2024), Lec 11 (2/29/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1oFcM9T3RIDgvRShnSzEsvqOCha8OH8c_vd60n7cLHOI/edit?usp=sharing">Bayesian Model Comparison and Information Criteria -  Lec 12 (3/5/2024)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1DMbpCpt4qUHdHjZ_VOB2UvUiavL2-BPU-4EvGjDBL68/edit?usp=sharing">Bayes Factors, sequential MC - Lec 13 (3/7/2024)</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Notebooks</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="MontyHall_MC.html">Bayes Theorem (2/1/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Intro_Bayes.html">Thinking Probabilistically (2/1/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Intro_PyMC4.html">Intro to Probabilistic Programming (2/6/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Intro_MCMC.html">An (Over-)Simplified Intro to MCMC (2/8/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Gaussian_Inferences.html">Bayesian Inference with Gaussian and t-Student models, update of beliefs (2/13/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Bayesian_Linear_Regression2.html">Bayesian Linear Regression; Robust Inference (2/15/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Bayesian_Polynomial_Regression.html">Bayesian Polynomial Regression, Posterior Predictive Checks and Comparison with Observations (2/20/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Bayesian_Logistic_Regression.html">Bayesian Logistic Regression (2/22/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Bayesian_Softmax.html">Bayesian Softmax (2/27/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Model_Comparison.html">Model Comparison, Information Criteria (3/5/2024)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Bayes_Factors.html">Model Comparison, Bayes Factors (3/7/2024)</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Assignments</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1WRx6z70xiTeizudRDfY5EIrVRG893CcS/view?usp=sharing">Assignment 1 - PDF (Questions 1 and 3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Sol_assignment1.html">Assignment 1 - notebook (Question 2)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Sol_assignment2.html">Assignment 2 - notebook (All Questions)</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Question and Answers</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/document/d/1D3qSpwsDQE9I44s9d9YiSepVw4gPmae0g7DjGtD4xbA/edit?usp=sharing">Q&amp;A Shared Google Doc (used in class)</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Projects</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://cfteach.github.io/pyscr/">Mini-project (pyscript + PyMC)</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://cfteach.github.io/brds/bayesian_A_B_testing_mini_project.html">Bayesian A/B testing (pyscript) by R. Gupta, BRDS class 2022</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional resources</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="mcmc_examples.html">MCMC examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="referencesmd.html">References</a></li>
-</ul>
-</div>
-</section>
+<iframe src="https://elevanth.org/mcmcdemo2/applet.html#RandomWalkMH,donut" width="700" height="400"></iframe></section>
 
     <script type="text/x-thebe-config">
     {
@@ -585,10 +518,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="MontyHall_MC.html" title="next page">
+    <a class='left-prev' id="prev-link" href="Sol_assignment2.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Assignment 2</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="referencesmd.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Bayes’ Rule Exercises and Monte Carlo Method</p>
+        <p class="prev-next-title">References</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
