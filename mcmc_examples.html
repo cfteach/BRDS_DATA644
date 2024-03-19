@@ -237,6 +237,11 @@ const thebe_selector_output = ".output, .cell_output"
    Model Comparison, Bayes Factors (3/7/2024)
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="MCMC_from_scratch_all.html">
+   Building MCMC from scratch; a closer look at samplers (3/19/2024)
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -493,19 +498,20 @@ title="Print to PDF"
 <br>
 <p style="margin-top:20px;"></p>
 <p><b> Random Walk with Metropolis-Hastings (2D Gaussian example) </b></p>
-<p>Text here</p>
+<p>The target distribution is a benign two-dimensional Gaussian—a nice Gaussian hill. You are looking down on it, with its peak in the center. The Markov chain wanders around this hill, making random proposals to move away from its current position. These proposals are represented by the arrows. We are implementing Metropolis-Hastings.</p>
 <iframe src="https://elevanth.org/mcmcdemo2/applet.html#RandomWalkMH,standard" width="700" height="400"></iframe><br>
 <p style="margin-top:20px;"></p>
 <p><b> Random Walk with Metropolis-Hastings (donut example) </b></p>
-<p>Text here</p>
+<p>Here’s another simulation, this time with a harder target: a donut. The donut target might look weird, but it represents a very common target, by analogy. In high dimensions—once there are many parameters—the target distribution occupies a narrow ring (in high-dimensional space). Most of the probability mass is not near the center. Now look what happens to honorable Metropolis-Hastings:</p>
 <iframe src="https://elevanth.org/mcmcdemo2/applet.html#RandomWalkMH,donut" width="700" height="400"></iframe><br>
 <p style="margin-top:20px;"></p>
 <b> Hamiltonian Monte Carlo (2D Gaussian example) </b>
-<p>Text here</p>
+<p>To make things a little crazier, suppose that this surface is frictionless. Now what we do is flick the particle in a random direction. It will frictionlessly flow across the bowl, eventually turning around. If we take samples of the particle’s position along its path, before flicking it off in another random trajectory, then we can learn about the shape of the surface.</p>
+<p>This is the principle behind Hamiltonian Monte Carlo. It will be easier to see it in action. Here is another simulation, this time using Hamiltonian Monte Carlo, again on the two-dimensional Gaussian target. The paths are flicks of the particle, and the green arrows again represent accepted proposals.</p>
 <iframe src="https://elevanth.org/mcmcdemo2/applet.html#HamiltonianMC,standard" width="700" height="400"></iframe><br>
 <p style="margin-top:20px;"></p>
 <p><b> Hamiltonian Monte Carlo (donut example) </b></p>
-<p>Text here</p>
+<p>Now see on the donut example</p>
 <iframe src="https://elevanth.org/mcmcdemo2/applet.html#HamiltonianMC,donut" width="700" height="400"></iframe></section>
 
     <script type="text/x-thebe-config">
