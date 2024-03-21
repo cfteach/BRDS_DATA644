@@ -177,6 +177,11 @@ const thebe_selector_output = ".output, .cell_output"
    Bayes Factors, sequential MC - Lec 13 (3/7/2024)
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/17YmhZNgNNIIo3BqnVWTs8GHlTAo1eO6I_M-_yM_moZk/edit?usp=sharing">
+   MCMC from scratch - Lec 14 (3/19/2024)
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -681,7 +686,6 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="building-mcmc-from-scratch">
 <h1>Building MCMC from scratch<a class="headerlink" href="#building-mcmc-from-scratch" title="Permalink to this headline">#</a></h1>
-<hr class="docutils" />
 <section id="monte-carlo">
 <h2>Monte Carlo<a class="headerlink" href="#monte-carlo" title="Permalink to this headline">#</a></h2>
 <p>“<a class="reference external" href="https://en.wikipedia.org/wiki/Monte_Carlo_method">Monte Carlo methods, or Monte Carlo experiments</a>, are a broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. The underlying concept is to use randomness to solve problems that might be deterministic in principle.”</p>
@@ -752,7 +756,7 @@ title="Print to PDF"
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-1.25, 1.25)
 </pre></div>
 </div>
-<img alt="_images/MCMC_from_scratch_all_9_1.png" src="_images/MCMC_from_scratch_all_9_1.png" />
+<img alt="_images/MCMC_from_scratch_all_8_1.png" src="_images/MCMC_from_scratch_all_8_1.png" />
 </div>
 </div>
 </section>
@@ -842,7 +846,7 @@ title="Print to PDF"
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x78180691b220&gt;
 </pre></div>
 </div>
-<img alt="_images/MCMC_from_scratch_all_17_2.png" src="_images/MCMC_from_scratch_all_17_2.png" />
+<img alt="_images/MCMC_from_scratch_all_16_2.png" src="_images/MCMC_from_scratch_all_16_2.png" />
 </div>
 </div>
 <p>What is Bayesian in all this?
@@ -891,9 +895,6 @@ Make connection to what we have done so far for inferential problems using PyMC.
     <span class="n">denominator</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">numerator</span><span class="o">/</span><span class="n">denominator</span>
 
-<span class="k">def</span> <span class="nf">neg_log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">mu</span><span class="p">,</span><span class="n">sigma</span><span class="p">):</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">normal</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">))</span>
-
 <span class="k">def</span> <span class="nf">generalized_neg_log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the negative log probability using a general distribution function.</span>
@@ -908,6 +909,9 @@ Make connection to what we have done so far for inferential problems using PyMC.
     <span class="n">steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">path_len</span><span class="o">/</span><span class="n">step_size</span><span class="p">)</span> <span class="c1"># path_len and step_size are tricky parameters to tune...</span>
     <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">initial_position</span><span class="p">]</span>
     <span class="n">momentum_dist</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">dVdQfun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">tmpq</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">tmpq</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># gradient of PDF wrt position (e.g., q0 is the initial) aka potential energy wrt position</span>
+
     <span class="c1"># generate samples</span>
     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
         <span class="n">q0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -917,8 +921,6 @@ Make connection to what we have done so far for inferential problems using PyMC.
         <span class="c1"># momentum; this is an auxiliary variable.</span>
         <span class="c1"># It does not correspond to model parameters, i.e., it is specified independently of the model&#39;s parameters. It typically follows a Gaussian distribution,</span>
 
-        <span class="n">dVdQfun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">tmpq</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">tmpq</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># gradient of PDF wrt position (e.g., q0 is the initial) aka potential energy wrt position</span>
-
         <span class="n">dVdQ</span> <span class="o">=</span> <span class="n">dVdQfun</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
 
         <span class="c1"># leapfrog integration begin</span>
@@ -926,9 +928,9 @@ Make connection to what we have done so far for inferential problems using PyMC.
             <span class="n">p1</span> <span class="o">+=</span> <span class="n">step_size</span><span class="o">*</span><span class="n">dVdQ</span><span class="o">/</span><span class="mi">2</span> <span class="c1"># as potential energy increases, kinetic energy decreases, half-step</span>
             <span class="n">q1</span> <span class="o">+=</span> <span class="n">step_size</span><span class="o">*</span><span class="n">p1</span> <span class="c1"># position increases as function of momentum</span>
             <span class="n">p1</span> <span class="o">+=</span> <span class="n">step_size</span><span class="o">*</span><span class="n">dVdQfun</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="c1"># second half-step &quot;leapfrog&quot; update to momentum</span>
+            <span class="n">dVdQ</span> <span class="o">=</span> <span class="n">dVdQfun</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
         <span class="c1"># leapfrog integration end</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">p1</span> <span class="c1">#flip momentum for reversibility</span>
-
 
         <span class="c1">#metropolis acceptance</span>
         <span class="c1">#q0_nlp = neg_log_prob(x=q0,mu=mu,sigma=sigma)</span>
@@ -960,7 +962,7 @@ Make connection to what we have done so far for inferential problems using PyMC.
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">trial</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span><span class="n">path_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">step_size</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span> <span class="c1">#note the step_size and path_len parameters</span>
+<span class="n">trial</span> <span class="o">=</span> <span class="n">HMC</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span><span class="n">path_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">step_size</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span> <span class="c1">#note the step_size and path_len parameters</span>
 
 <span class="n">lines</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">10_000</span><span class="p">)</span>
 <span class="n">normal_curve</span> <span class="o">=</span> <span class="p">[</span><span class="n">normal</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
@@ -972,7 +974,7 @@ Make connection to what we have done so far for inferential problems using PyMC.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/MCMC_from_scratch_all_23_0.png" src="_images/MCMC_from_scratch_all_23_0.png" />
+<img alt="_images/MCMC_from_scratch_all_22_0.png" src="_images/MCMC_from_scratch_all_22_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -991,7 +993,7 @@ Make connection to what we have done so far for inferential problems using PyMC.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/MCMC_from_scratch_all_25_0.png" src="_images/MCMC_from_scratch_all_25_0.png" />
+<img alt="_images/MCMC_from_scratch_all_24_0.png" src="_images/MCMC_from_scratch_all_24_0.png" />
 </div>
 </div>
 <p>The code above implements a basic form of Hamiltonian Monte Carlo (HMC).
