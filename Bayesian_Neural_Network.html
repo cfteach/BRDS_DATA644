@@ -966,8 +966,7 @@ Wall time: 33.9 s
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">neural_network</span><span class="p">:</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">new_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ann_input&quot;</span><span class="p">:</span> <span class="n">X_test</span><span class="p">})</span>
     <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-    <span class="n">trace</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span> <span class="c1">#?</span>
-    <span class="c1"># why 5000?</span>
+    <span class="n">trace</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
