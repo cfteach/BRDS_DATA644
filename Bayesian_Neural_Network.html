@@ -955,7 +955,7 @@ Wall time: 33.9 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trace</span> <span class="o">=</span> <span class="n">approx</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trace</span> <span class="o">=</span> <span class="n">approx</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2500</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -966,7 +966,7 @@ Wall time: 33.9 s
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">neural_network</span><span class="p">:</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">new_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ann_input&quot;</span><span class="p">:</span> <span class="n">X_test</span><span class="p">})</span>
     <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-    <span class="n">trace</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
+    <span class="n">trace</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span> <span class="c1"># to add the posterior predictive samples to trace or not.</span>
 </pre></div>
 </div>
 </div>
@@ -989,8 +989,8 @@ Wall time: 33.9 s
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='5000' class='' max='5000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [5000/5000 00:05&lt;00:00]
+  <progress value='2500' class='' max='2500' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [2500/2500 00:01&lt;00:00]
 </div>
 </div></div>
 </div>
@@ -1024,7 +1024,7 @@ Wall time: 33.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 87.72%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 87.37%
 </pre></div>
 </div>
 </div>
@@ -1037,7 +1037,21 @@ Wall time: 33.9 s
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">])</span>
 <span class="n">grid_2d</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">dummy_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="n">dummy_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">grid_2d</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">grid_2d</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">dummy_out</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10000, 2)
+(10000,)
 </pre></div>
 </div>
 </div>
@@ -1051,10 +1065,6 @@ Wall time: 33.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.10/dist-packages/pymc/model/core.py:1972: ShapeWarning: You are resizing a variable with dimension &#39;obs_id&#39; which was initialized as a mutable dimension by another variable (&#39;ann_input&#39;). Remember to update that variable with the correct shape to avoid shape issues.
-  model.set_data(variable_name, new_value, coords=coords)
-</pre></div>
-</div>
 <div class="output text_html">
 <style>
     /* Turns off some styling */
@@ -1073,26 +1083,14 @@ Wall time: 33.9 s
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='5000' class='' max='5000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [5000/5000 00:23&lt;00:00]
+  <progress value='2500' class='' max='2500' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [2500/2500 00:11&lt;00:00]
 </div>
 </div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">y_pred</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, 5000, 10000)
 </pre></div>
 </div>
 </div>
@@ -1179,7 +1177,7 @@ Wall time: 33.9 s
 </div><div class="output text_html">
 <div>
   <progress value='40000' class='' max='40000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [40000/40000 00:40&lt;00:00 Average Loss = 124.87]
+  100.00% [40000/40000 00:40&lt;00:00 Average Loss = 109.79]
 </div>
 </div></div>
 </div>
@@ -1240,7 +1238,7 @@ Wall time: 33.9 s
 </div><div class="output text_html">
 <div>
   <progress value='5000' class='' max='5000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [5000/5000 00:04&lt;00:00]
+  100.00% [5000/5000 00:02&lt;00:00]
 </div>
 </div></div>
 </div>
@@ -1258,7 +1256,7 @@ Wall time: 33.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 89.47%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 87.37%
 </pre></div>
 </div>
 </div>
