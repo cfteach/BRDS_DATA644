@@ -775,6 +775,44 @@ These developments collectively push the boundaries of what deep learning can ac
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jaxlib</span>
+<span class="n">jax</span><span class="o">.</span><span class="n">default_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;gpu&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">jax</span><span class="o">.</span><span class="n">devices</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[cuda(id=0)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">jax</span><span class="o">.</span><span class="n">local_device_count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="o">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s1">&#39;retina&#39;</span> <span class="c1"># used to configure the way matplotlib graphs are displayed in a Jupyter notebook</span>
 <span class="n">floatX</span> <span class="o">=</span> <span class="n">pytensor</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">floatX</span> <span class="c1"># This line sets the variable floatX to the default floating-point data type used by a library</span>
 <span class="n">RANDOM_SEED</span> <span class="o">=</span> <span class="mi">9927</span>
@@ -836,7 +874,7 @@ These developments collectively push the boundaries of what deep learning can ac
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Bayesian_Neural_Network_17_0.png" src="_images/Bayesian_Neural_Network_17_0.png" />
+<img alt="_images/Bayesian_Neural_Network_20_0.png" src="_images/Bayesian_Neural_Network_20_0.png" />
 </div>
 </div>
 </section>
@@ -909,6 +947,8 @@ These developments collectively push the boundaries of what deep learning can ac
 <span class="k">with</span> <span class="n">neural_network</span><span class="p">:</span>
     <span class="n">approx</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30_000</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;advi&#39;</span><span class="p">)</span>   <span class="c1">#default method is advi</span>
     <span class="c1"># Explore usage of callbacks=[pm.callbacks.CheckParametersConvergence()], obj_optimizer=pm.adam(learning_rate=0.001) --- from PyMC3</span>
+
+<span class="c1"># advi uses SGD or variants such as Adam</span>
 </pre></div>
 </div>
 </div>
@@ -932,14 +972,20 @@ These developments collectively push the boundaries of what deep learning can ac
 </div><div class="output text_html">
 <div>
   <progress value='30000' class='' max='30000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [30000/30000 00:31&lt;00:00 Average Loss = 110.86]
+  100.00% [30000/30000 00:23&lt;00:00 Average Loss = 122.57]
 </div>
-</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 32 s, sys: 259 ms, total: 32.2 s
-Wall time: 33.9 s
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 24.8 s, sys: 217 ms, total: 25 s
+Wall time: 26 s
 </pre></div>
 </div>
 </div>
 </div>
+<blockquote>
+<div><p>During the optimization process with ADVI, the parameters (mean and standard deviation) of these distributions are updated iteratively. However, these parameters themselves (the variational parameters) are what are saved during optimization, not the weights directly. Each update effectively shifts and shapes the assumed posterior distributions of the weights. In practice, these updates occur at each iteration of the optimizer, and the state of these parameters at convergence represents the learned posterior.</p>
+</div></blockquote>
+<blockquote>
+<div><p>The mean and variance for each weight’s distribution are adjusted to minimize the divergence between the true posterior and the variational approximation.</p>
+</div></blockquote>
 <p>Plotting the objective function (ELBO) we can see that the optimization iteratively improves the fit.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -950,22 +996,30 @@ Wall time: 33.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Bayesian_Neural_Network_26_0.png" src="_images/Bayesian_Neural_Network_26_0.png" />
+<img alt="_images/Bayesian_Neural_Network_30_0.png" src="_images/Bayesian_Neural_Network_30_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trace</span> <span class="o">=</span> <span class="n">approx</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2500</span><span class="p">)</span>
+
+<span class="c1"># contains the optimized parameters of the approximate distribution (e.g., means and standard deviations for a Gaussian approximation)</span>
+<span class="c1"># The sample step generates draws from the approximate posterior distribution represented by approx</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Now that we trained our model, lets predict on the hold-out set using a posterior predictive check (PPC). We can use <code class="docutils literal notranslate"><span class="pre">sample_posterior_predictive()</span></code> to generate new data (in this case class predictions) from the posterior (sampled from the variational estimation).</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">trace</span> <span class="pre">=</span> <span class="pre">approx.sample</span></code> is effectively turning the optimization results (a parametric approximation to the posterior) into a collection of samples that can be used for downstream Bayesian inference tasks</p>
+</div></blockquote>
+<blockquote>
+<div><p>Now that we trained our model, lets predict on the held-out set using a posterior predictive check (PPC). We can use <code class="docutils literal notranslate"><span class="pre">sample_posterior_predictive()</span></code> to generate new data (in this case class predictions) from the posterior (sampled from the variational estimation).</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">neural_network</span><span class="p">:</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">new_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ann_input&quot;</span><span class="p">:</span> <span class="n">X_test</span><span class="p">})</span>
-    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span> <span class="c1"># distribution of predicted data conditioned on the observed data.</span>
     <span class="n">trace</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span> <span class="c1"># to add the posterior predictive samples to trace or not.</span>
 </pre></div>
 </div>
@@ -990,14 +1044,14 @@ Wall time: 33.9 s
 </div><div class="output text_html">
 <div>
   <progress value='2500' class='' max='2500' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [2500/2500 00:01&lt;00:00]
+  100.00% [2500/2500 00:00&lt;00:00]
 </div>
 </div></div>
 </div>
 <p>We can average the predictions for each observation to estimate the underlying probability of class 1.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="c1"># ---- this will return True or False, based on the numerical value being &gt;0,5 or not</span>
 </pre></div>
 </div>
 </div>
@@ -1014,17 +1068,17 @@ Wall time: 33.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Bayesian_Neural_Network_32_0.png" src="_images/Bayesian_Neural_Network_32_0.png" />
+<img alt="_images/Bayesian_Neural_Network_37_0.png" src="_images/Bayesian_Neural_Network_37_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy = </span><span class="si">{</span><span class="p">(</span><span class="n">Y_test</span> <span class="o">==</span> <span class="n">pred</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy = </span><span class="si">{</span><span class="p">(</span><span class="n">Y_test</span> <span class="o">==</span> <span class="n">pred</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 87.37%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 91.2281%
 </pre></div>
 </div>
 </div>
@@ -1084,7 +1138,7 @@ Wall time: 33.9 s
 </div><div class="output text_html">
 <div>
   <progress value='2500' class='' max='2500' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [2500/2500 00:11&lt;00:00]
+  100.00% [2500/2500 00:09&lt;00:00]
 </div>
 </div></div>
 </div>
@@ -1114,7 +1168,7 @@ Wall time: 33.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Bayesian_Neural_Network_41_0.png" src="_images/Bayesian_Neural_Network_41_0.png" />
+<img alt="_images/Bayesian_Neural_Network_46_0.png" src="_images/Bayesian_Neural_Network_46_0.png" />
 </div>
 </div>
 </section>
@@ -1137,7 +1191,7 @@ Wall time: 33.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Bayesian_Neural_Network_44_0.png" src="_images/Bayesian_Neural_Network_44_0.png" />
+<img alt="_images/Bayesian_Neural_Network_49_0.png" src="_images/Bayesian_Neural_Network_49_0.png" />
 </div>
 </div>
 <p>We can see that very close to the decision boundary, our uncertainty as to which label to predict is highest. You can imagine that associating predictions with uncertainty is a critical property for many applications like health care. To further maximize accuracy, we might want to train the model primarily on samples from that high-uncertainty region.</p>
@@ -1153,7 +1207,7 @@ Wall time: 33.9 s
 <span class="n">neural_network_minibatch</span> <span class="o">=</span> <span class="n">construct_nn</span><span class="p">(</span><span class="n">minibatch_x</span><span class="p">,</span> <span class="n">minibatch_y</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="n">neural_network_minibatch</span><span class="p">:</span>
-    <span class="n">approx</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">ADVI</span><span class="p">())</span>
+    <span class="n">approx_mb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="mi">40000</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">ADVI</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -1177,44 +1231,40 @@ Wall time: 33.9 s
 </div><div class="output text_html">
 <div>
   <progress value='40000' class='' max='40000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [40000/40000 00:40&lt;00:00 Average Loss = 109.79]
+  100.00% [40000/40000 00:33&lt;00:00 Average Loss = 123.72]
 </div>
 </div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">approx</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">approx_mb</span><span class="o">.</span><span class="n">hist</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;ELBO&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;iteration&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/Bayesian_Neural_Network_50_0.png" src="_images/Bayesian_Neural_Network_50_0.png" />
+<img alt="_images/Bayesian_Neural_Network_55_0.png" src="_images/Bayesian_Neural_Network_55_0.png" />
 </div>
 </div>
 <p>In general, mini-batch ADVI’s running time is lower. It also typically converges faster.</p>
 <p>For fun, we can also look at the trace. The point is that we also get uncertainty of our Neural Network weights.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">);</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_mb</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.10/dist-packages/arviz/utils.py:184: NumbaDeprecationWarning: The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
-  numba_fn = numba.jit(**self.kwargs)(self.function)
-</pre></div>
-</div>
-<img alt="_images/Bayesian_Neural_Network_52_1.png" src="_images/Bayesian_Neural_Network_52_1.png" />
+<img alt="_images/Bayesian_Neural_Network_57_0.png" src="_images/Bayesian_Neural_Network_57_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">neural_network</span><span class="p">:</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">new_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ann_input&quot;</span><span class="p">:</span> <span class="n">X_test</span><span class="p">})</span>
-    <span class="n">ppc_mb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-    <span class="n">trace</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ppc_mb</span><span class="p">)</span>
+    <span class="n">ppc_mb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_mb</span><span class="p">)</span>
+    <span class="n">trace_mb</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ppc_mb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1237,8 +1287,8 @@ Wall time: 33.9 s
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='5000' class='' max='5000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [5000/5000 00:02&lt;00:00]
+  <progress value='2500' class='' max='2500' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [2500/2500 00:02&lt;00:00]
 </div>
 </div></div>
 </div>
@@ -1251,12 +1301,12 @@ Wall time: 33.9 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy = </span><span class="si">{</span><span class="p">(</span><span class="n">Y_test</span> <span class="o">==</span> <span class="n">pred_mb</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy = </span><span class="si">{</span><span class="p">(</span><span class="n">Y_test</span> <span class="o">==</span> <span class="n">pred_mb</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 87.37%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy = 91.2281%
 </pre></div>
 </div>
 </div>
