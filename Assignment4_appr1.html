@@ -1,0 +1,1180 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Solution to Assignment 4 (Approach 1) &#8212; Bayesian Reasoning in Data Science (DATA 644)</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Solution to Assignment 4 (Approach 2)" href="Assignment4_appr2.html" />
+    <link rel="prev" title="Assignment 3" href="Assignment3.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/wm_vertical_single_line_full_color.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Bayesian Reasoning in Data Science (DATA 644)</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Bayesian Reasoning in Data Science (PhD Course)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Lectures (integrate with notebooks below)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">
+   Bayes Theorem, priors, likelihood, posterior, distributions - Lec 1 (1/25/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1A46CUs7thqx5qPV91fdywdkl0nQx_PWhokTif0Rmf_8/edit?usp=sharing">
+   Bayes Theorem, subjective and objective interpretations of probability, Exercises - Lec 2 (1/30/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1r1Np-VjDTCLCmaynoOBaCel3W40bZvj9lQBlY6zfggc/edit?usp=sharing">
+   Thinking Probabilistically, Causes and Effects , True and Measured; Credible Intervals, ROPE, HDI - Lec 3 (2/1/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1_GlPlOWiB9HGNph6jKFfHdZjP7tm70WiqsmEZeUcC-E/edit?usp=sharing">
+   Inference and Intro to Probabilistic Programming, PyMC; Credible Intervals, ROPE, HDI - Lec 4 (2/6/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1xwxp7steeZfhyNR1OAtRSWR1Qnx0OKVfA0WvpHNR-CM/edit?usp=sharing">
+   Inference and Intro to Probabilistic Programming, PyMC; Credible Intervals, ROPE, HDI - Lec 5 (2/8/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1J0j8Y3S0gcGLL-9JsUuQEpZ1J-YU6bZKM_GJ4M_7_jA/edit?usp=sharing">
+   Gaussian Inference; t-Student; Update of Beliefs - Lec 6 (2/13/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1nFAnk_s-SVPVRUs-r4MdxR-KTCknRhwJwHQpgoiqZHk/edit?usp=sharing">
+   Bayesian Linear Regression; Robust Regression - Lec 7 (2/15/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1Na_htl6xFF9Td-giuBGRjnsdZUX8pVnq0wCS7qzk9WA/edit?usp=sharing">
+   Bayesian Polynomial Regression, Posterior Predictive Checks - Lec 8 (2/20/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1JqfptaCn1qGk18gEGvfnk3GoO3U5Xtz1nNtJh1rBX5U/edit?usp=sharing">
+   Bayesian Logistic Regression and Softmax - Lec 9 (2/22/2024), Lec 10 (2/27/2024), Lec 11 (2/29/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1oFcM9T3RIDgvRShnSzEsvqOCha8OH8c_vd60n7cLHOI/edit?usp=sharing">
+   Bayesian Model Comparison and Information Criteria -  Lec 12 (3/5/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1DMbpCpt4qUHdHjZ_VOB2UvUiavL2-BPU-4EvGjDBL68/edit?usp=sharing">
+   Bayes Factors, sequential MC - Lec 13 (3/7/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/17YmhZNgNNIIo3BqnVWTs8GHlTAo1eO6I_M-_yM_moZk/edit?usp=sharing">
+   MCMC from scratch - Lec 14 (3/19/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1wC-PCgw1IC_Vrx31vbdd_soOEfH9j4Q-ZS8QuFvpHYk/edit?usp=sharing">
+   Intro to Gaussian Processes - Lec 15 (3/21/2024), Lec 16 (3/26/2024), Lec 17 (3/28/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1mMOooI65xibJ1lhYX1_pqaMZrHYOq-nUTIihUBpNmFE/edit?usp=sharing">
+   Introduction to Bayes Networks - Lec 20 (4/9/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1MHynfX4iBHDpwv0vFdhAt5QMBz2WFKu9OQMcG3JU3qs/edit?usp=sharing">
+   Introduction to Bayesian Neural Networks - Lec 22 (4/16/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/10-8mQhg8jNnULql5zq94YjWqd7U7UlCL0dWdBDnQf-M/edit?usp=sharing">
+   BNN (continue) - Lec 24 (4/25/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1ht46M6uSxF02tFACvgsxrfIyrUtCTfmDvbIWqn95K0U/edit?usp=sharing">
+   Finale - Lec 25 (5/2/2024)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="MontyHall_MC.html">
+   Bayes Theorem (2/1/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro_Bayes.html">
+   Thinking Probabilistically (2/1/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro_PyMC4.html">
+   Intro to Probabilistic Programming (2/6/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro_MCMC.html">
+   An (Over-)Simplified Intro to MCMC (2/8/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Gaussian_Inferences.html">
+   Bayesian Inference with Gaussian and t-Student models, update of beliefs (2/13/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Linear_Regression2.html">
+   Bayesian Linear Regression; Robust Inference (2/15/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Polynomial_Regression.html">
+   Bayesian Polynomial Regression, Posterior Predictive Checks and Comparison with Observations (2/20/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Logistic_Regression.html">
+   Bayesian Logistic Regression (2/22/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Softmax.html">
+   Bayesian Softmax (2/27/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Model_Comparison.html">
+   Model Comparison, Information Criteria (3/5/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayes_Factors.html">
+   Model Comparison, Bayes Factors (3/7/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="MCMC_from_scratch_all.html">
+   Building MCMC from scratch; a closer look at samplers (3/19/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Gaussian_Processes.html">
+   Gaussian Processes (3/26/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="moo_BO_3obj.html">
+   Multi-Objective Optimization (4/4/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayes_Nets_2.html">
+   Bayesian Networks (4/9/2024) and (4/11/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Neural_Network.html">
+   Bayesian Neural Networks (4/16/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="BCNN_4.html">
+   Bayesian Convolutional Neural Network (4/25/2024)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assignments
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1WRx6z70xiTeizudRDfY5EIrVRG893CcS/view?usp=sharing">
+   Assignment 1 - PDF (Questions 1 and 3)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Sol_assignment1.html">
+   Assignment 1 - notebook (Question 2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1RS4_0tsT9orWW3iB7ILys2ojwX-XQUeC/view?usp=sharing">
+   Assignment 2 - PDF
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Sol_assignment2.html">
+   Assignment 2 - notebook (All Questions)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1oFS6ZqUvX_yu-Csv55bN49lkkr9sgNIo/view?usp=sharing">
+   Assignment 3 - PDF
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Assignment3.html">
+   Assignment 3 - notebook (All Questions)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1l4qyFLPLJEti7r72LMw2TJ9ia3XFiPVW/view?usp=sharing">
+   Assignment 4 - PDF
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Assignment 4 - notebook (Approach 1)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Assignment4_appr2.html">
+   Assignment 4 - notebook (Approach 2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1kAwh1GSJqaeWgt-z7zPMozbW-zGefM8Z/view?usp=sharing">
+   Assignment 5 - PDF (new2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Sol_assignment5.html">
+   Assignment 5 - notebook (All Questions)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Question and Answers
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/document/d/1D3qSpwsDQE9I44s9d9YiSepVw4gPmae0g7DjGtD4xbA/edit?usp=sharing">
+   Q&amp;A Shared Google Doc (used in class)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/pyscr/">
+   Mini-project (pyscript + PyMC)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/brds/bayesian_A_B_testing_mini_project.html">
+   Bayesian A/B testing (pyscript) by R. Gupta, BRDS class 2022
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Additional resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mcmc_examples.html">
+   MCMC examples
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="referencesmd.html">
+   References
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/cfteach/BRDS_DATA644/main?urlpath=tree/notebooks/Assignment4_appr1.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="http://jupyterhub.wm.edu/hub/user-redirect/git-pull?repo=https://github.com/cfteach/BRDS_DATA644&urlpath=tree/BRDS_DATA644/notebooks/Assignment4_appr1.ipynb&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/cfteach/BRDS_DATA644/blob/main/notebooks/Assignment4_appr1.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/cfteach/BRDS_DATA644"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/cfteach/BRDS_DATA644/issues/new?title=Issue%20on%20page%20%2FAssignment4_appr1.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Assignment4_appr1.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-preparation">
+   Data Preparation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#one-vs-rest-classification">
+   One vs Rest Classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-grid-of-points-and-making-predictions">
+   Generate a grid of points and making predictions
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Solution to Assignment 4 (Approach 1)</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-preparation">
+   Data Preparation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#one-vs-rest-classification">
+   One vs Rest Classification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-a-grid-of-points-and-making-predictions">
+   Generate a grid of points and making predictions
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="solution-to-assignment-4-approach-1">
+<h1>Solution to Assignment 4 (Approach 1)<a class="headerlink" href="#solution-to-assignment-4-approach-1" title="Permalink to this headline">#</a></h1>
+<section id="data-preparation">
+<h2>Data Preparation<a class="headerlink" href="#data-preparation" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Load the Iris dataset</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># We only take the first two features, sepal length and width</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># The dataset is now loaded into X and y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example for one species</span>
+<span class="n">species_idx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># You can change to 1 and 2 for the other species</span>
+<span class="n">y_binary</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">species_idx</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">y_binary</span> <span class="o">*=</span><span class="mi">10</span>
+
+<span class="n">y_binary</span><span class="p">[</span><span class="n">y_binary</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">=-</span><span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_binary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,
+        10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,
+        10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,
+        10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,  10.,
+        10.,  10.,  10.,  10.,  10.,  10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10., -10., -10., -10., -10.,
+       -10., -10., -10., -10., -10., -10., -10.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="one-vs-rest-classification">
+<h2>One vs Rest Classification<a class="headerlink" href="#one-vs-rest-classification" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+  <span class="c1"># Priors for the GP hyperparameters</span>
+  <span class="n">ℓ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;ℓ&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">η</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfCauchy</span><span class="p">(</span><span class="s2">&quot;η&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+  <span class="c1"># Covariance function</span>
+  <span class="n">cov</span> <span class="o">=</span> <span class="n">η</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pm</span><span class="o">.</span><span class="n">gp</span><span class="o">.</span><span class="n">cov</span><span class="o">.</span><span class="n">ExpQuad</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ℓ</span><span class="p">)</span>  <span class="c1"># 2 input dimensions</span>
+
+  <span class="c1"># GP</span>
+  <span class="c1">#gp = pm.gp.MarginalSparse(cov_func=cov, approx=&quot;VFE&quot;)</span>
+  <span class="n">gp</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">gp</span><span class="o">.</span><span class="n">Marginal</span><span class="p">(</span><span class="n">cov_func</span><span class="o">=</span><span class="n">cov</span><span class="p">)</span>
+
+  <span class="c1"># Noise term</span>
+  <span class="n">σ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s2">&quot;σ&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># GP marginal likelihood</span>
+  <span class="n">y_</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">marginal_likelihood</span><span class="p">(</span><span class="s2">&quot;y_&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_binary</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">σ</span><span class="p">)</span>
+
+  <span class="c1"># Sampling</span>
+  <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='2000' class='' max='2000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [2000/2000 01:43&lt;00:00 Sampling chain 0, 0 divergences]
+</div>
+</div><div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='2000' class='' max='2000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [2000/2000 01:35&lt;00:00 Sampling chain 1, 0 divergences]
+</div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example for one species</span>
+<span class="n">species_idx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Change to 1 and 2 for the other species</span>
+<span class="n">y_binary</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">species_idx</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="c1"># Use arviz to visualize the posterior and model performance</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.10/dist-packages/arviz/utils.py:184: NumbaDeprecationWarning: The &#39;nopython&#39; keyword argument was not supplied to the &#39;numba.jit&#39; decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
+  numba_fn = numba.jit(**self.kwargs)(self.function)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: title={&#39;center&#39;: &#39;ℓ&#39;}&gt;, &lt;Axes: title={&#39;center&#39;: &#39;ℓ&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;η&#39;}&gt;, &lt;Axes: title={&#39;center&#39;: &#39;η&#39;}&gt;],
+       [&lt;Axes: title={&#39;center&#39;: &#39;σ&#39;}&gt;, &lt;Axes: title={&#39;center&#39;: &#39;σ&#39;}&gt;]],
+      dtype=object)
+</pre></div>
+</div>
+<img alt="_images/Assignment4_appr1_8_2.png" src="_images/Assignment4_appr1_8_2.png" />
+</div>
+</div>
+</section>
+<section id="generate-a-grid-of-points-and-making-predictions">
+<h2>Generate a grid of points and making predictions<a class="headerlink" href="#generate-a-grid-of-points-and-making-predictions" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1: Generate a grid of points</span>
+<span class="n">sepal_length_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">sepal_width_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">sepal_length_range</span><span class="p">,</span> <span class="n">sepal_width_range</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">xx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1">#print(grid)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">grid</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">xx</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">yy</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(400, 2)
+(20, 20)
+(20, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 2: Predict using the model</span>
+<span class="c1"># Note: Replace &#39;model&#39; and &#39;trace&#39; with the actual variables from your model training</span>
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="c1"># Create a GP conditional for the grid points</span>
+    <span class="n">f_pred_2</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">conditional</span><span class="p">(</span><span class="s1">&#39;f_pred_2&#39;</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+    <span class="c1"># Sample from the posterior predictive distribution</span>
+    <span class="n">pred_samples</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;f_pred_2&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='2000' class='' max='2000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [2000/2000 07:28&lt;00:00]
+</div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">pred_samples</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s1">&#39;f_pred_2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="n">tmp_y</span> <span class="o">=</span> <span class="n">pred_samples</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s1">&#39;f_pred_2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use &quot;link function&quot; like the sigmoid to map latent values to probabilities.</span>
+<span class="c1"># The scale of the latent values can significantly affect the interpretation of the probabilities obtained after applying the sigmoid function.</span>
+
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">scaling</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="n">tmp_y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11.072002469534395
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">probs_grid</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">tmp_y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">probs_grid</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">yy</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(400,) (20, 20) (20, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The predictions are probabilities after applying the logistic function</span>
+<span class="c1">#probs = pm.math.invlogit(tmp_probs)</span>
+
+<span class="c1"># Step 3: Visualize the predictions</span>
+<span class="c1"># Reshape the probabilities back to the grid shape for plotting</span>
+<span class="n">probs_grid</span> <span class="o">=</span> <span class="n">probs_grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
+<span class="n">contour</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">probs_grid</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=-</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal Length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Sepal Width&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;GPC Predicted Probabilities for Class 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Assignment4_appr1_16_0.png" src="_images/Assignment4_appr1_16_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">pred_samples</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s1">&#39;f_pred_2&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 1000, 400)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assuming `pred_samples` contains samples of predictions from the posterior predictive</span>
+<span class="c1"># Let&#39;s calculate the standard deviation (as a measure of uncertainty) for each point</span>
+<span class="c1"># on the grid.</span>
+
+<span class="n">tmp_stdev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">pred_samples</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s1">&#39;f_pred_2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(400,) &lt;class &#39;numpy.ndarray&#39;&gt;
+(400,) &lt;class &#39;numpy.ndarray&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tmp_stdev</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2.87565601e-01 2.69386882e-01 3.84454639e-01 1.08073390e-02
+ 7.68272100e-05 2.53189744e-02 1.09563335e-02 8.80328691e-03
+ 4.84495415e-02 5.92677156e-02]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The standard deviation is reshaped to fit the grid for contour plotting</span>
+<span class="n">std_dev_reshaped</span> <span class="o">=</span> <span class="n">tmp_stdev</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Now, let&#39;s plot the uncertainties</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">contour</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">std_dev_reshaped</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=-</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sepal length&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sepal width&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;GP Classification Uncertainties&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Assignment4_appr1_20_0.png" src="_images/Assignment4_appr1_20_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The standard deviation is reshaped to fit the grid for contour plotting</span>
+<span class="n">std_dev_reshaped_v2</span> <span class="o">=</span> <span class="n">tmp_stdev_v2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Now, let&#39;s plot the uncertainties</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">contour</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">std_dev_reshaped_v2</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=-</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sepal length&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sepal width&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;GP Classification Uncertainties&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Assignment4_appr1_21_0.png" src="_images/Assignment4_appr1_21_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "cfteach/BRDS_DATA644",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Assignment3.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Assignment 3</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Assignment4_appr2.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Solution to Assignment 4 (Approach 2)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Cristiano Fanelli<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

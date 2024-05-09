@@ -1,0 +1,1009 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Solution to Assignment 5 &#8212; Bayesian Reasoning in Data Science (DATA 644)</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="_static/wm_vertical_single_line_full_color.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MCMC Examples" href="mcmc_examples.html" />
+    <link rel="prev" title="Assignment 3" href="Assignment3.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/wm_vertical_single_line_full_color.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Bayesian Reasoning in Data Science (DATA 644)</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Bayesian Reasoning in Data Science (PhD Course)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Lectures (integrate with notebooks below)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1uXlxQoqseWwwurtU-HSbqEz6EvE-r4ZSPorJU8kmFgw/edit?usp=sharing">
+   Bayes Theorem, priors, likelihood, posterior, distributions - Lec 1 (1/25/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1A46CUs7thqx5qPV91fdywdkl0nQx_PWhokTif0Rmf_8/edit?usp=sharing">
+   Bayes Theorem, subjective and objective interpretations of probability, Exercises - Lec 2 (1/30/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1r1Np-VjDTCLCmaynoOBaCel3W40bZvj9lQBlY6zfggc/edit?usp=sharing">
+   Thinking Probabilistically, Causes and Effects , True and Measured; Credible Intervals, ROPE, HDI - Lec 3 (2/1/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1_GlPlOWiB9HGNph6jKFfHdZjP7tm70WiqsmEZeUcC-E/edit?usp=sharing">
+   Inference and Intro to Probabilistic Programming, PyMC; Credible Intervals, ROPE, HDI - Lec 4 (2/6/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1xwxp7steeZfhyNR1OAtRSWR1Qnx0OKVfA0WvpHNR-CM/edit?usp=sharing">
+   Inference and Intro to Probabilistic Programming, PyMC; Credible Intervals, ROPE, HDI - Lec 5 (2/8/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1J0j8Y3S0gcGLL-9JsUuQEpZ1J-YU6bZKM_GJ4M_7_jA/edit?usp=sharing">
+   Gaussian Inference; t-Student; Update of Beliefs - Lec 6 (2/13/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1nFAnk_s-SVPVRUs-r4MdxR-KTCknRhwJwHQpgoiqZHk/edit?usp=sharing">
+   Bayesian Linear Regression; Robust Regression - Lec 7 (2/15/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1Na_htl6xFF9Td-giuBGRjnsdZUX8pVnq0wCS7qzk9WA/edit?usp=sharing">
+   Bayesian Polynomial Regression, Posterior Predictive Checks - Lec 8 (2/20/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1JqfptaCn1qGk18gEGvfnk3GoO3U5Xtz1nNtJh1rBX5U/edit?usp=sharing">
+   Bayesian Logistic Regression and Softmax - Lec 9 (2/22/2024), Lec 10 (2/27/2024), Lec 11 (2/29/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1oFcM9T3RIDgvRShnSzEsvqOCha8OH8c_vd60n7cLHOI/edit?usp=sharing">
+   Bayesian Model Comparison and Information Criteria -  Lec 12 (3/5/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1DMbpCpt4qUHdHjZ_VOB2UvUiavL2-BPU-4EvGjDBL68/edit?usp=sharing">
+   Bayes Factors, sequential MC - Lec 13 (3/7/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/17YmhZNgNNIIo3BqnVWTs8GHlTAo1eO6I_M-_yM_moZk/edit?usp=sharing">
+   MCMC from scratch - Lec 14 (3/19/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1wC-PCgw1IC_Vrx31vbdd_soOEfH9j4Q-ZS8QuFvpHYk/edit?usp=sharing">
+   Intro to Gaussian Processes - Lec 15 (3/21/2024), Lec 16 (3/26/2024), Lec 17 (3/28/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1mMOooI65xibJ1lhYX1_pqaMZrHYOq-nUTIihUBpNmFE/edit?usp=sharing">
+   Introduction to Bayes Networks - Lec 20 (4/9/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1MHynfX4iBHDpwv0vFdhAt5QMBz2WFKu9OQMcG3JU3qs/edit?usp=sharing">
+   Introduction to Bayesian Neural Networks - Lec 22 (4/16/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/10-8mQhg8jNnULql5zq94YjWqd7U7UlCL0dWdBDnQf-M/edit?usp=sharing">
+   BNN (continue) - Lec 24 (4/25/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/presentation/d/1ht46M6uSxF02tFACvgsxrfIyrUtCTfmDvbIWqn95K0U/edit?usp=sharing">
+   Finale - Lec 25 (5/2/2024)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="MontyHall_MC.html">
+   Bayes Theorem (2/1/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro_Bayes.html">
+   Thinking Probabilistically (2/1/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro_PyMC4.html">
+   Intro to Probabilistic Programming (2/6/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Intro_MCMC.html">
+   An (Over-)Simplified Intro to MCMC (2/8/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Gaussian_Inferences.html">
+   Bayesian Inference with Gaussian and t-Student models, update of beliefs (2/13/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Linear_Regression2.html">
+   Bayesian Linear Regression; Robust Inference (2/15/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Polynomial_Regression.html">
+   Bayesian Polynomial Regression, Posterior Predictive Checks and Comparison with Observations (2/20/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Logistic_Regression.html">
+   Bayesian Logistic Regression (2/22/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Softmax.html">
+   Bayesian Softmax (2/27/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Model_Comparison.html">
+   Model Comparison, Information Criteria (3/5/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayes_Factors.html">
+   Model Comparison, Bayes Factors (3/7/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="MCMC_from_scratch_all.html">
+   Building MCMC from scratch; a closer look at samplers (3/19/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Gaussian_Processes.html">
+   Gaussian Processes (3/26/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="moo_BO_3obj.html">
+   Multi-Objective Optimization (4/4/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayes_Nets_2.html">
+   Bayesian Networks (4/9/2024) and (4/11/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Bayesian_Neural_Network.html">
+   Bayesian Neural Networks (4/16/2024)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="BCNN_4.html">
+   Bayesian Convolutional Neural Network (4/25/2024)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Assignments
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1WRx6z70xiTeizudRDfY5EIrVRG893CcS/view?usp=sharing">
+   Assignment 1 - PDF (Questions 1 and 3)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Sol_assignment1.html">
+   Assignment 1 - notebook (Question 2)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1RS4_0tsT9orWW3iB7ILys2ojwX-XQUeC/view?usp=sharing">
+   Assignment 2 - PDF
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Sol_assignment2.html">
+   Assignment 2 - notebook (All Questions)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1oFS6ZqUvX_yu-Csv55bN49lkkr9sgNIo/view?usp=sharing">
+   Assignment 3 - PDF
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Assignment3.html">
+   Assignment 3 - notebook (All Questions)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1l4qyFLPLJEti7r72LMw2TJ9ia3XFiPVW/view?usp=sharing">
+   Assignment 4 - PDF
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://drive.google.com/file/d/1kAwh1GSJqaeWgt-z7zPMozbW-zGefM8Z/view?usp=sharing">
+   Assignment 5 - PDF (new2)
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Assignment 5 - notebook (All Questions)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Question and Answers
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://docs.google.com/document/d/1D3qSpwsDQE9I44s9d9YiSepVw4gPmae0g7DjGtD4xbA/edit?usp=sharing">
+   Q&amp;A Shared Google Doc (used in class)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Projects
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/pyscr/">
+   Mini-project (pyscript + PyMC)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cfteach.github.io/brds/bayesian_A_B_testing_mini_project.html">
+   Bayesian A/B testing (pyscript) by R. Gupta, BRDS class 2022
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Additional resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mcmc_examples.html">
+   MCMC examples
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="referencesmd.html">
+   References
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/cfteach/BRDS_DATA644/main?urlpath=tree/notebooks/Sol_assignment5.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="http://jupyterhub.wm.edu/hub/user-redirect/git-pull?repo=https://github.com/cfteach/BRDS_DATA644&urlpath=tree/BRDS_DATA644/notebooks/Sol_assignment5.ipynb&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/cfteach/BRDS_DATA644/blob/main/notebooks/Sol_assignment5.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/cfteach/BRDS_DATA644"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/cfteach/BRDS_DATA644/issues/new?title=Issue%20on%20page%20%2FSol_assignment5.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Sol_assignment5.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Solution to Assignment 5</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="solution-to-assignment-5">
+<h1>Solution to Assignment 5<a class="headerlink" href="#solution-to-assignment-5" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pgmpy</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting pgmpy
+  Downloading pgmpy-0.1.25-py3-none-any.whl (2.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">2.0/2.0 MB</span> <span class=" -Color -Color-Red">7.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hRequirement already satisfied: networkx in /usr/local/lib/python3.10/dist-packages (from pgmpy) (3.3)
+Requirement already satisfied: numpy in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.25.2)
+Requirement already satisfied: scipy in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.11.4)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.2.2)
+Requirement already satisfied: pandas in /usr/local/lib/python3.10/dist-packages (from pgmpy) (2.0.3)
+Requirement already satisfied: pyparsing in /usr/local/lib/python3.10/dist-packages (from pgmpy) (3.1.2)
+Requirement already satisfied: torch in /usr/local/lib/python3.10/dist-packages (from pgmpy) (2.2.1+cu121)
+Requirement already satisfied: statsmodels in /usr/local/lib/python3.10/dist-packages (from pgmpy) (0.14.2)
+Requirement already satisfied: tqdm in /usr/local/lib/python3.10/dist-packages (from pgmpy) (4.66.4)
+Requirement already satisfied: joblib in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.4.2)
+Requirement already satisfied: opt-einsum in /usr/local/lib/python3.10/dist-packages (from pgmpy) (3.3.0)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/python3.10/dist-packages (from pandas-&gt;pgmpy) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas-&gt;pgmpy) (2023.4)
+Requirement already satisfied: tzdata&gt;=2022.1 in /usr/local/lib/python3.10/dist-packages (from pandas-&gt;pgmpy) (2024.1)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.10/dist-packages (from scikit-learn-&gt;pgmpy) (3.5.0)
+Requirement already satisfied: patsy&gt;=0.5.6 in /usr/local/lib/python3.10/dist-packages (from statsmodels-&gt;pgmpy) (0.5.6)
+Requirement already satisfied: packaging&gt;=21.3 in /usr/local/lib/python3.10/dist-packages (from statsmodels-&gt;pgmpy) (24.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (3.14.0)
+Requirement already satisfied: typing-extensions&gt;=4.8.0 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (4.11.0)
+Requirement already satisfied: sympy in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (1.12)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (3.1.3)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (2023.6.0)
+Collecting nvidia-cuda-nvrtc-cu12==12.1.105 (from torch-&gt;pgmpy)
+  Using cached nvidia_cuda_nvrtc_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (23.7 MB)
+Collecting nvidia-cuda-runtime-cu12==12.1.105 (from torch-&gt;pgmpy)
+  Using cached nvidia_cuda_runtime_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (823 kB)
+Collecting nvidia-cuda-cupti-cu12==12.1.105 (from torch-&gt;pgmpy)
+  Using cached nvidia_cuda_cupti_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (14.1 MB)
+Collecting nvidia-cudnn-cu12==8.9.2.26 (from torch-&gt;pgmpy)
+  Using cached nvidia_cudnn_cu12-8.9.2.26-py3-none-manylinux1_x86_64.whl (731.7 MB)
+Collecting nvidia-cublas-cu12==12.1.3.1 (from torch-&gt;pgmpy)
+  Using cached nvidia_cublas_cu12-12.1.3.1-py3-none-manylinux1_x86_64.whl (410.6 MB)
+Collecting nvidia-cufft-cu12==11.0.2.54 (from torch-&gt;pgmpy)
+  Using cached nvidia_cufft_cu12-11.0.2.54-py3-none-manylinux1_x86_64.whl (121.6 MB)
+Collecting nvidia-curand-cu12==10.3.2.106 (from torch-&gt;pgmpy)
+  Using cached nvidia_curand_cu12-10.3.2.106-py3-none-manylinux1_x86_64.whl (56.5 MB)
+Collecting nvidia-cusolver-cu12==11.4.5.107 (from torch-&gt;pgmpy)
+  Using cached nvidia_cusolver_cu12-11.4.5.107-py3-none-manylinux1_x86_64.whl (124.2 MB)
+Collecting nvidia-cusparse-cu12==12.1.0.106 (from torch-&gt;pgmpy)
+  Using cached nvidia_cusparse_cu12-12.1.0.106-py3-none-manylinux1_x86_64.whl (196.0 MB)
+Collecting nvidia-nccl-cu12==2.19.3 (from torch-&gt;pgmpy)
+  Using cached nvidia_nccl_cu12-2.19.3-py3-none-manylinux1_x86_64.whl (166.0 MB)
+Collecting nvidia-nvtx-cu12==12.1.105 (from torch-&gt;pgmpy)
+  Using cached nvidia_nvtx_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (99 kB)
+Requirement already satisfied: triton==2.2.0 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (2.2.0)
+Collecting nvidia-nvjitlink-cu12 (from nvidia-cusolver-cu12==11.4.5.107-&gt;torch-&gt;pgmpy)
+  Using cached nvidia_nvjitlink_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl (21.1 MB)
+Requirement already satisfied: six in /usr/local/lib/python3.10/dist-packages (from patsy&gt;=0.5.6-&gt;statsmodels-&gt;pgmpy) (1.16.0)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.10/dist-packages (from jinja2-&gt;torch-&gt;pgmpy) (2.1.5)
+Requirement already satisfied: mpmath&gt;=0.19 in /usr/local/lib/python3.10/dist-packages (from sympy-&gt;torch-&gt;pgmpy) (1.3.0)
+Installing collected packages: nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufft-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, nvidia-cusparse-cu12, nvidia-cudnn-cu12, nvidia-cusolver-cu12, pgmpy
+Successfully installed nvidia-cublas-cu12-12.1.3.1 nvidia-cuda-cupti-cu12-12.1.105 nvidia-cuda-nvrtc-cu12-12.1.105 nvidia-cuda-runtime-cu12-12.1.105 nvidia-cudnn-cu12-8.9.2.26 nvidia-cufft-cu12-11.0.2.54 nvidia-curand-cu12-10.3.2.106 nvidia-cusolver-cu12-11.4.5.107 nvidia-cusparse-cu12-12.1.0.106 nvidia-nccl-cu12-2.19.3 nvidia-nvjitlink-cu12-12.4.127 nvidia-nvtx-cu12-12.1.105 pgmpy-0.1.25
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Q1) Build your Bayesian Network using pgmpy as shown in class. Make use of the Variable Elimination method.</span>
+
+<span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
+<span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
+<span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">VariableElimination</span>
+
+<span class="c1"># Define the structure of the Bayesian Network</span>
+
+<span class="n">model_diabetes</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Lifestyle&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;FamilyHistory&#39;</span><span class="p">,</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;BloodTests&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;CardioRisk&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Cholesterol&#39;</span><span class="p">,</span> <span class="s1">&#39;CardioRisk&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Hypertension&#39;</span><span class="p">,</span> <span class="s1">&#39;CardioRisk&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="c1"># Define the Conditional Probability Distributions (CPDs)</span>
+<span class="n">cpd_age</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                     <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.4</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">]],</span> <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Young&#39;</span><span class="p">,</span> <span class="s1">&#39;Middle-aged&#39;</span><span class="p">,</span> <span class="s1">&#39;Elderly&#39;</span><span class="p">]})</span>
+
+<span class="n">cpd_lifestyle</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Lifestyle&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                           <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.7</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">]],</span> <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Lifestyle&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Unhealthy&#39;</span><span class="p">,</span> <span class="s1">&#39;Healthy&#39;</span><span class="p">]})</span>
+
+<span class="n">cpd_familyhistory</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;FamilyHistory&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                               <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.85</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.15</span><span class="p">]],</span> <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;FamilyHistory&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Absent&#39;</span><span class="p">,</span> <span class="s1">&#39;Present&#39;</span><span class="p">]})</span>
+
+
+<span class="n">cpd_cholesterol</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Cholesterol&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                             <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]],</span>
+                             <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Cholesterol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">]})</span>
+
+<span class="n">cpd_hypertension</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Hypertension&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                              <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">]],</span>
+                              <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Hypertension&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">]})</span>
+
+
+<span class="n">cpd_diabetes</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                          <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+                            <span class="p">[</span><span class="mf">0.97</span><span class="p">,</span> <span class="mf">0.93</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.81</span><span class="p">,</span> <span class="mf">0.77</span><span class="p">,</span> <span class="mf">0.88</span><span class="p">,</span> <span class="mf">0.81</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.61</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">],</span> <span class="c1"># No Diabetes</span>
+                            <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.19</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.19</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.39</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">]</span>  <span class="c1"># Yes Diabetes</span>
+                          <span class="p">],</span>
+                          <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;Lifestyle&#39;</span><span class="p">,</span> <span class="s1">&#39;FamilyHistory&#39;</span><span class="p">],</span>
+                          <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                          <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">],</span> <span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Young&#39;</span><span class="p">,</span> <span class="s1">&#39;Middle-aged&#39;</span><span class="p">,</span> <span class="s1">&#39;Elderly&#39;</span><span class="p">],</span> <span class="s1">&#39;Lifestyle&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Unhealthy&#39;</span><span class="p">,</span> <span class="s1">&#39;Healthy&#39;</span><span class="p">],</span> <span class="s1">&#39;FamilyHistory&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Absent&#39;</span><span class="p">,</span> <span class="s1">&#39;Present&#39;</span><span class="p">]})</span>
+
+<span class="n">cpd_bloodtests</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;BloodTests&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+                                    <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]],</span>
+                            <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">],</span>
+                            <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                            <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;BloodTests&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Abnormal&#39;</span><span class="p">],</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">]}</span>
+                            <span class="p">)</span>
+
+
+<span class="n">cpd_cardiorisk</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;CardioRisk&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+                                <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">],</span>  <span class="c1"># Low Risk</span>
+                                <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.45</span><span class="p">]</span>   <span class="c1"># High Risk</span>
+                            <span class="p">],</span>
+                            <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">,</span> <span class="s1">&#39;Cholesterol&#39;</span><span class="p">,</span> <span class="s1">&#39;Hypertension&#39;</span><span class="p">],</span>
+                            <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                            <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;CardioRisk&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">],</span> <span class="s1">&#39;Diabetes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">],</span> <span class="s1">&#39;Cholesterol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">],</span> <span class="s1">&#39;Hypertension&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">]}</span>
+                            <span class="p">)</span>
+
+
+<span class="c1"># Add all CPDs to the model</span>
+<span class="n">model_diabetes</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">cpd_age</span><span class="p">,</span> <span class="n">cpd_lifestyle</span><span class="p">,</span> <span class="n">cpd_familyhistory</span><span class="p">,</span> <span class="n">cpd_cholesterol</span><span class="p">,</span> <span class="n">cpd_hypertension</span><span class="p">,</span> <span class="n">cpd_diabetes</span><span class="p">,</span> <span class="n">cpd_bloodtests</span><span class="p">,</span> <span class="n">cpd_cardiorisk</span><span class="p">)</span>
+
+
+<span class="c1"># Validate the model</span>
+<span class="k">assert</span> <span class="n">model_diabetes</span><span class="o">.</span><span class="n">check_model</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize the inference object</span>
+<span class="n">infer</span> <span class="o">=</span> <span class="n">VariableElimination</span><span class="p">(</span><span class="n">model_diabetes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Q2a) What is the probability of diabetes given being elderly, unhealthy lifestyle, and with family history present?</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;Elderly&#39;</span><span class="p">,</span> <span class="s1">&#39;Lifestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;Unhealthy&#39;</span><span class="p">,</span> <span class="s1">&#39;FamilyHistory&#39;</span><span class="p">:</span> <span class="s1">&#39;Present&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+-----------------+
+| Diabetes      |   phi(Diabetes) |
++===============+=================+
+| Diabetes(No)  |          0.6100 |
++---------------+-----------------+
+| Diabetes(Yes) |          0.3900 |
++---------------+-----------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Q2b)  What is the probability of diabetes given being elderly, unhealthy lifestyle, family history present and cardio risk being high?</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;Elderly&#39;</span><span class="p">,</span> <span class="s1">&#39;Lifestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;Unhealthy&#39;</span><span class="p">,</span> <span class="s1">&#39;FamilyHistory&#39;</span><span class="p">:</span> <span class="s1">&#39;Present&#39;</span><span class="p">,</span> <span class="s1">&#39;CardioRisk&#39;</span><span class="p">:</span> <span class="s1">&#39;High&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+-----------------+
+| Diabetes      |   phi(Diabetes) |
++===============+=================+
+| Diabetes(No)  |          0.5623 |
++---------------+-----------------+
+| Diabetes(Yes) |          0.4377 |
++---------------+-----------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Q2c) What is the probability of diabetes given being elderly, unhealthy lifestyle, family history present, cardio risk being high and knowing that cholesterol is high and hypertension is present?</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;Elderly&#39;</span><span class="p">,</span> <span class="s1">&#39;Lifestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;Unhealthy&#39;</span><span class="p">,</span> <span class="s1">&#39;FamilyHistory&#39;</span><span class="p">:</span> <span class="s1">&#39;Present&#39;</span><span class="p">,</span> <span class="s1">&#39;CardioRisk&#39;</span><span class="p">:</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Cholesterol&#39;</span><span class="p">:</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Hypertension&#39;</span><span class="p">:</span><span class="s1">&#39;Yes&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+-----------------+
+| Diabetes      |   phi(Diabetes) |
++===============+=================+
+| Diabetes(No)  |          0.5816 |
++---------------+-----------------+
+| Diabetes(Yes) |          0.4184 |
++---------------+-----------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bonus1) What is the probability of diabetes given being elderly, unhealthy lifestyle, family history present, knowing that cholesterol is high and hypertension is present? Does it change compared to Question 2c?</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Diabetes&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Age&#39;</span><span class="p">:</span> <span class="s1">&#39;Elderly&#39;</span><span class="p">,</span> <span class="s1">&#39;Lifestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;Unhealthy&#39;</span><span class="p">,</span> <span class="s1">&#39;FamilyHistory&#39;</span><span class="p">:</span> <span class="s1">&#39;Present&#39;</span><span class="p">,</span> <span class="s1">&#39;Cholesterol&#39;</span><span class="p">:</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Hypertension&#39;</span><span class="p">:</span><span class="s1">&#39;Yes&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+-----------------+
+| Diabetes      |   phi(Diabetes) |
++===============+=================+
+| Diabetes(No)  |          0.6100 |
++---------------+-----------------+
+| Diabetes(Yes) |          0.3900 |
++---------------+-----------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bonus 2) Is the probability of Blood Tests conditioned by Hypertension? Please motivate your answer.</span>
+<span class="n">query_result</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;BloodTests&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Hypertension&#39;</span><span class="p">:</span><span class="s1">&#39;Yes&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----------------------+-------------------+
+| BloodTests           |   phi(BloodTests) |
++======================+===================+
+| BloodTests(Normal)   |            0.6415 |
++----------------------+-------------------+
+| BloodTests(Abnormal) |            0.3585 |
++----------------------+-------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_result</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;BloodTests&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Hypertension&#39;</span><span class="p">:</span><span class="s1">&#39;No&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----------------------+-------------------+
+| BloodTests           |   phi(BloodTests) |
++======================+===================+
+| BloodTests(Normal)   |            0.6415 |
++----------------------+-------------------+
+| BloodTests(Abnormal) |            0.3585 |
++----------------------+-------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that the results of blood tests are independent of hypertension.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bonus 3) What sanity checks can you perform to ensure that your network is properly encoded? Please expand upon and justify your strategies.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "cfteach/BRDS_DATA644",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Assignment3.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Assignment 3</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="mcmc_examples.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">MCMC Examples</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Cristiano Fanelli<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
